@@ -12,35 +12,40 @@ ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
 ENV APACHE_LOG_DIR /var/log/apache2
 
-COPY ./workers.properties /etc/libapache2-mod-jk/
-COPY ./app-host.conf /etc/apache2/sites-available/
-COPY ./default-host.conf /etc/apache2/sites-available/
-COPY ./jk.conf /etc/apache2/conf-available/
-COPY ./ssl.conf /etc/apache2/conf-available/
+COPY . /setup
 
 RUN set -x \
+    && cp /setup/workers.properties /etc/libapache2-mod-jk \
+    && cp /setup/app-host.conf /etc/apache2/sites-available \
+    && cp /setup/default-host.conf /etc/apache2/sites-available \
+    && cp /setup/jk.conf /etc/apache2/conf-available \
+    && cp /setup/ssl.conf /etc/apache2/conf-available \
+    && cp /setup/upload.conf /etc/apache2/conf-available \
+    && mkdir -p /etc/pki/tls/kspmis/ \
+    && cp /setup/tls/* /etc/pki/tls/kspmis \
     && /usr/sbin/a2ensite default-ssl \
     && /usr/sbin/a2enmod ssl \
+    && /usr/sbin/a2enmod proxy \
+    && /usr/sbin/a2enmod proxy_http \
     && /usr/sbin/a2ensite app-host.conf \
     #&& /usr/sbin/a2ensite default-host.conf \
     #&& /usr/sbin/a2enconf jk.conf \
     #&& /usr/sbin/a2enconf ssl.conf \
     && /usr/sbin/a2dissite 000-default.conf \
     && ln -s /var/log/apache2 /etc/apache2/logs \
-    && mkdir /app \
-    && mkdir -p /etc/pki/tls/kspmis/
+    && cp /setup/docker-entrypoint.sh /entrypoint.sh \
+    # final step remove setup folder
+    && rm -rf /setup
 
-COPY ./tls/_wildcard_kspmis_com.crt /etc/pki/tls/kspmis/
-COPY ./tls/_wildcard_kspmis_com_SHA256WITHRSA.key /etc/pki/tls/kspmis/
-COPY ./tls/rsa-dv.chain-bundle.pem /etc/pki/tls/kspmis/
+# just for testing
+#COPY index.html /app
 
-COPY index.html /app
-VOLUME /app
 VOLUME /var/log/apache2
 
 EXPOSE 80
 EXPOSE 443
 
-#COPY entrypoint.sh /
-#ENTRYPOINT ["/entrypoint.sh"]
-ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+#ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+#CMD ["/bin/bash"]
