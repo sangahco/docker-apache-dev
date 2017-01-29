@@ -13,16 +13,15 @@ services:
       - log:/usr/local/tomcat/logs
       - edms:/edms
   apache:
+    build: .
     image: pmis-apache
     ports:
       - "80:80"
       - "443:443"
     links:
       - was:was
-    # volumes_from:
-    #   - was
     volumes:
-      - app:/app
+      - app:/var/www
       - log:/var/log/apache2
 
 volumes:

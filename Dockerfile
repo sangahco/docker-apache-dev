@@ -4,7 +4,6 @@ MAINTAINER Emanuele Disco <emanuele.disco@gmail.com>
 RUN apt-get update && apt-get -y install \
     apache2 \
     libapache2-mod-jk \
-    nano \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
@@ -21,8 +20,7 @@ RUN set -x \
     && cp /setup/jk.conf /etc/apache2/conf-available \
     && cp /setup/ssl.conf /etc/apache2/conf-available \
     && cp /setup/upload.conf /etc/apache2/conf-available \
-    && mkdir -p /etc/pki/tls/kspmis/ \
-    && cp /setup/tls/* /etc/pki/tls/kspmis \
+    && mkdir -p /etc/pki/tls/app/ \
     && /usr/sbin/a2ensite default-ssl \
     && /usr/sbin/a2enmod ssl \
     && /usr/sbin/a2enmod proxy \
@@ -34,11 +32,9 @@ RUN set -x \
     && /usr/sbin/a2dissite 000-default.conf \
     && ln -s /var/log/apache2 /etc/apache2/logs \
     && cp /setup/docker-entrypoint.sh /entrypoint.sh \
+    && if [ -d "/setup/tls" ]; then cp /setup/tls/* /etc/pki/tls/app; fi \
     # final step remove setup folder
     && rm -rf /setup
-
-# just for testing
-#COPY index.html /app
 
 VOLUME /var/log/apache2
 
