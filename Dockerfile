@@ -23,16 +23,15 @@ RUN set -x \
     && mkdir -p /etc/pki/tls/app/ \
     && /usr/sbin/a2ensite default-ssl \
     && /usr/sbin/a2enmod ssl \
+    && /usr/sbin/a2enmod rewrite \
     && /usr/sbin/a2enmod proxy \
     && /usr/sbin/a2enmod proxy_http \
     && /usr/sbin/a2ensite app-host.conf \
     #&& /usr/sbin/a2ensite default-host.conf \
     #&& /usr/sbin/a2enconf jk.conf \
-    #&& /usr/sbin/a2enconf ssl.conf \
     && /usr/sbin/a2dissite 000-default.conf \
     && ln -s /var/log/apache2 /etc/apache2/logs \
     && cp /setup/docker-entrypoint.sh /entrypoint.sh \
-    && if [ -d "/setup/tls" ]; then cp /setup/tls/* /etc/pki/tls/app; fi \
     # final step remove setup folder
     && rm -rf /setup
 

@@ -23,6 +23,9 @@ services:
     volumes:
       - app:/var/www
       - log:/var/log/apache2
+      - ./tls:/etc/pki/tls/app
+    environment:
+      - APACHE_SSL
 
 volumes:
   log:
