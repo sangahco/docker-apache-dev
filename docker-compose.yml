@@ -2,7 +2,7 @@ version: "2"
 
 services:
   was:
-    image: pmis-tomcat
+    image: dev.sangah.com:5043/pmis-tomcat
     extra_hosts:
       - "db:203.239.21.121"
     expose:
