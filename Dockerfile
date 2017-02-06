@@ -1,18 +1,18 @@
 FROM dev.sangah.com:5043/apache-base
 MAINTAINER Emanuele Disco <emanuele.disco@gmail.com>
 
-COPY . /setup
+COPY . /usr/local/src/
+WORKDIR /usr/local/src
 
 RUN set -x \
-    && cp /setup/workers.properties /etc/libapache2-mod-jk \
-    && cp /setup/app-host.conf /etc/apache2/sites-available \
-    && cp /setup/upload.conf /etc/apache2/conf-available \
-    && cp /setup/ssl.conf /etc/apache2/conf-available \
-
+    && cp conf.d/workers.properties /etc/libapache2-mod-jk \
+    && cp conf.d/app-host.conf /etc/apache2/sites-available \
+    && cp conf.d/upload.conf /etc/apache2/conf-available \
+    && cp conf.d/ssl.conf /etc/apache2/conf-available \
     && /usr/sbin/a2ensite app-host.conf \
     && /usr/sbin/a2enconf upload.conf \
-    && cp /setup/docker-entrypoint.sh /entrypoint.sh \
-    && rm -rf /setup
+    && cp docker-entrypoint.sh /entrypoint.sh \
+    && rm -rf /usr/local/src
 
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

@@ -3,13 +3,10 @@ version: "2"
 services:
   was:
     image: dev.sangah.com:5043/pmis-tomcat
-    extra_hosts:
-      - "db:203.239.21.121"
-    expose:
-      - "8081"
     volumes:
       - app:/usr/local/tomcat/webapps
-  apache:
+
+  httpd:
     build: .
     image: pmis-apache
     ports:
@@ -19,9 +16,12 @@ services:
       - was:was
     volumes:
       - app:/var/www
-      - ./ssl:/etc/ssl/app
+      - ${APACHE_SSL_CERT_PATH}:/etc/ssl/app:ro
     environment:
       - APACHE_SSL
+      - APACHE_SSL_KEY
+      - APACHE_SSL_CERT
+      - APACHE_SSL_CHAIN
 
 volumes:
   app:
