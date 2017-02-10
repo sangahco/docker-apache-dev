@@ -7,7 +7,7 @@ services:
       - app:/usr/local/tomcat/webapps
 
   httpd:
-    build: .
+    build: httpd
     image: pmis-apache
     ports:
       - "80:80"
