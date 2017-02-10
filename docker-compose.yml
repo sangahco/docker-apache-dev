@@ -17,6 +17,7 @@ services:
     volumes:
       - app:/var/www
       - ${APACHE_SSL_CERT_PATH}:/etc/ssl/app:ro
+      #- /etc/letsencrypt:/etc/letsencrypt:ro
     environment:
       - APACHE_SSL
       - APACHE_SSL_KEY
