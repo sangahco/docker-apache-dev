@@ -4,7 +4,7 @@ services:
   was:
     image: dev.sangah.com:5043/pmis-tomcat
     volumes:
-      - app:/usr/local/tomcat/webapps
+      - app:/usr/local/pmis
 
   httpd:
     build: httpd
@@ -23,6 +23,7 @@ services:
       - APACHE_SSL_KEY
       - APACHE_SSL_CERT
       - APACHE_SSL_CHAIN
+      - MACHINE_HOST
 
 volumes:
   app:

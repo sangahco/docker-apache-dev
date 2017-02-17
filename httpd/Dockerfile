@@ -14,10 +14,17 @@ RUN set -x && \
 
     # attach the log to stdout
     ln -sf /proc/self/fd/1 ${APACHE_LOG_DIR}/app-access.log && \
-    ln -sf /proc/self/fd/1 ${APACHE_LOG_DIR}/app-error.log && \
+    ln -sf /proc/self/fd/1 ${APACHE_LOG_DIR}/app-error.log
 
-    cp docker-entrypoint.sh /entrypoint.sh && \
+ARG SYSCONF=1.0.0
+ADD https://github.com/sangahco/pmis-system-config/releases/download/v1/sysconf-v${SYSCONF}.tar.gz sysconf.tar.bz2
+RUN set -x && \
+    tar -xf sysconf.tar.bz2 && \
+    mkdir -p /usr/local/share/sysconf && \
+    cp -a sysconf*/. /usr/local/share/sysconf/
+
+RUN cp docker-entrypoint.sh /entrypoint.sh && \
+    chmod +x /entrypoint.sh && \
     rm -rf /usr/local/src
 
-RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
