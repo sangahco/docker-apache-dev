@@ -4,7 +4,7 @@ services:
   was:
     image: dev.sangah.com:5043/pmis-tomcat
     volumes:
-      - app:/usr/local/pmis
+      - app:/usr/local/webapp
 
   httpd:
     build: httpd
