@@ -23,7 +23,6 @@ services:
       - APACHE_SSL_KEY
       - APACHE_SSL_CERT
       - APACHE_SSL_CHAIN
-      - MACHINE_HOST
 
 volumes:
   app:
