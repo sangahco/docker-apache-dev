@@ -4,25 +4,29 @@ services:
   was:
     image: dev.sangah.com:5043/pmis-tomcat
     volumes:
-      - app:/usr/local/webapp
+    - app:/usr/local/webapp
+    environment: 
+    - DB_URL
+    - DB_PASSWORD
+    - DB_USERNAME
 
   httpd:
     build: httpd
     image: pmis-apache
     ports:
-      - "80:80"
-      - "443:443"
+    - "80:80"
+    - "443:443"
     links:
-      - was:was
+    - was:was
     volumes:
-      - app:/var/www
-      - ${APACHE_SSL_CERT_PATH}:/etc/ssl/app:ro
-      #- /etc/letsencrypt:/etc/letsencrypt:ro
+    - app:/var/www
+    - ${APACHE_SSL_CERT_PATH}:/etc/ssl/app:ro
+    #- /etc/letsencrypt:/etc/letsencrypt:ro
     environment:
-      - APACHE_SSL
-      - APACHE_SSL_KEY
-      - APACHE_SSL_CERT
-      - APACHE_SSL_CHAIN
+    - APACHE_SSL
+    - APACHE_SSL_KEY
+    - APACHE_SSL_CERT
+    - APACHE_SSL_CHAIN
 
 volumes:
   app:
