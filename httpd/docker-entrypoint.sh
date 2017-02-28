@@ -18,6 +18,9 @@ if [ "$APACHE_SSL" == "1" ]; then
     sed -i 's/#SSL/SSL/' /etc/apache2/sites-available/app-host.conf
 fi
 
+# Apache gets grumpy about PID files pre-existing
+rm -f /var/run/apache2/apache2.pid
+
 if [ $# -eq 0 ]; then
     # if no arguments are supplied start apache
     exec /usr/sbin/apache2ctl -DFOREGROUND
