@@ -2,7 +2,7 @@ version: "2"
 
 services:
   was:
-    image: dev.sangah.com:5043/pmis-tomcat
+    image: dev.sangah.com:5043/stnd-pmis
     volumes:
     - app:/usr/local/webapp
     environment: 
