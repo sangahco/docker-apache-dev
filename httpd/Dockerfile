@@ -1,4 +1,4 @@
-FROM dev.sangah.com:5043/apache-base
+FROM dev.sangah.com:5043/apache-base:0.1
 MAINTAINER Emanuele Disco <emanuele.disco@gmail.com>
 
 COPY . /usr/local/src/
