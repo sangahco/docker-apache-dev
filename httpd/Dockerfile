@@ -4,6 +4,12 @@ MAINTAINER Emanuele Disco <emanuele.disco@gmail.com>
 COPY . /usr/local/src/
 WORKDIR /usr/local/src
 
+ENV APACHE_SSL=0 \
+    APACHE_SSL_KEY=key.pem \
+    APACHE_SSL_CERT=cert.pem \
+    APACHE_SSL_CHAIN=chain.pem \
+    SECURED_RESOURCE_ALLOWED_IP=0.0.0.0/0
+
 RUN set -x && \
     cp conf.d/workers.properties /etc/libapache2-mod-jk && \
     cp conf.d/app-host.conf /etc/apache2/sites-available && \
