@@ -17,7 +17,6 @@ RUN set -x && \
     cp conf.d/ssl.conf /etc/apache2/conf-available && \
     /usr/sbin/a2ensite app-host.conf && \
     /usr/sbin/a2enconf upload.conf && \
-
     # attach the log to stdout
     ln -sf /proc/self/fd/1 ${APACHE_LOG_DIR}/app-access.log && \
     ln -sf /proc/self/fd/1 ${APACHE_LOG_DIR}/app-error.log
