@@ -5,7 +5,6 @@ echo "Starting Apache HTTP with the following settings:"
 echo "- ssl enabled:     ${APACHE_SSL}"
 echo "- ssl key file:    ${APACHE_SSL_KEY}"
 echo "- ssl cert file:   ${APACHE_SSL_CERT}"
-echo "- ssl chain file:  ${APACHE_SSL_CHAIN}"
 
 if [ "$APACHE_SSL" == "1" ]; then
     /usr/sbin/a2enconf ssl.conf
