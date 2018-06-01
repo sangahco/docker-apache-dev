@@ -4,7 +4,6 @@ set -e
 export APACHE_SSL=${APACHE_SSL:?missing}
 export APACHE_SSL_KEY=${APACHE_SSL_KEY:-key.pem}
 export APACHE_SSL_CERT=${APACHE_SSL_CERT:-cert.pem}
-export APACHE_SSL_CHAIN=${APACHE_SSL_CHAIN:-chain.pem}
 export SECURED_RESOURCE_ALLOWED_IP=${SECURED_RESOURCE_ALLOWED_IP:-127.0.0.1}
 
 echo "Starting Apache HTTP with the following settings:"
